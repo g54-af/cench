@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FitHub NYC — Train Like New York</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#F5C518;--dark:#0A0A0A;--dark2:#111;--dark3:#1a1a1a;--dark4:#222;
+  --gray:#888;--light:#f5f5f5;--white:#fff;--red:#E8233A;
+  --font:"Segoe UI",system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--white);font-family:var(--font);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:1px solid #222}
+.logo{font-size:1.6rem;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:#ccc;text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--gold);color:var(--dark);padding:10px 22px;border-radius:6px;font-weight:800;font-size:.85rem;text-decoration:none;letter-spacing:.5px;transition:transform .2s,opacity .2s}
+.nav-cta:hover{opacity:.88;transform:scale(1.03)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 5% 60px}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#0f0f1a 40%,#0a0a0a 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,197,24,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.04) 1px,transparent 1px);background-size:60px 60px}
+.hero-content{position:relative;z-index:2;max-width:700px}
+.hero-badge{display:inline-block;background:rgba(245,197,24,.12);border:1px solid rgba(245,197,24,.3);color:var(--gold);padding:6px 16px;border-radius:50px;font-size:.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:clamp(3rem,8vw,6rem);font-weight:900;line-height:1;letter-spacing:-3px;margin-bottom:24px}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero p{font-size:1.1rem;color:#aaa;line-height:1.7;max-width:520px;margin-bottom:36px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--dark);padding:16px 36px;border-radius:8px;font-weight:900;font-size:1rem;text-decoration:none;letter-spacing:.5px;transition:transform .2s,box-shadow .2s;display:inline-block}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(245,197,24,.35)}
+.btn-outline{border:2px solid #444;color:var(--white);padding:14px 32px;border-radius:8px;font-weight:700;font-size:1rem;text-decoration:none;transition:border-color .2s,color .2s;display:inline-block}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{display:flex;gap:40px;margin-top:60px;padding-top:40px;border-top:1px solid #222}
+.stat-num{font-size:2.2rem;font-weight:900;color:var(--gold);display:block}
+.stat-label{font-size:.8rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px}
+
+/* SECTION COMMON */
+section{padding:90px 5%}
+.section-tag{font-size:.75rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.section-title{font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px}
+.section-sub{color:#888;max-width:540px;line-height:1.7;font-size:.95rem}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:20px}
+
+/* GYMS */
+.gyms-section{background:var(--dark2)}
+.gyms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px}
+.gym-card{background:var(--dark3);border:1px solid #222;border-radius:14px;overflow:hidden;transition:border-color .2s,transform .2s;cursor:pointer}
+.gym-card:hover{border-color:var(--gold);transform:translateY(-4px)}
+.gym-card-header{padding:28px 24px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.gym-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.gym-badge{font-size:.7rem;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:50px;text-transform:uppercase}
+.badge-luxury{background:rgba(245,197,24,.15);color:var(--gold)}
+.badge-budget{background:rgba(34,197,94,.12);color:#4ade80}
+.badge-sport{background:rgba(59,130,246,.12);color:#60a5fa}
+.badge-strength{background:rgba(239,68,68,.12);color:#f87171}
+.badge-boutique{background:rgba(168,85,247,.12);color:#c084fc}
+.gym-name{font-size:1.15rem;font-weight:800;margin-bottom:4px}
+.gym-location{font-size:.8rem;color:var(--gray)}
+.gym-card-body{padding:0 24px 24px}
+.gym-desc{font-size:.85rem;color:#aaa;line-height:1.6;margin-bottom:16px}
+.gym-price{font-size:1.4rem;font-weight:900;color:var(--white)}
+.gym-price span{font-size:.8rem;color:var(--gray);font-weight:400}
+.gym-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.gym-tag{font-size:.72rem;background:#1e1e1e;border:1px solid #333;color:#aaa;padding:3px 9px;border-radius:4px}
+.gym-stars{color:var(--gold);font-size:.85rem;margin-bottom:8px}
+
+/* WORKOUT TEMPLATES */
+.templates-section{background:var(--dark)}
+.templates-tabs{display:flex;gap:8px;margin-bottom:40px;flex-wrap:wrap}
+.tab-btn{padding:10px 20px;border-radius:8px;border:1px solid #333;background:transparent;color:#aaa;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s}
+.tab-btn.active,.tab-btn:hover{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:20px}
+.template-card{background:var(--dark3);border:1px solid #222;border-radius:14px;padding:28px;transition:border-color .2s}
+.template-card:hover{border-color:#444}
+.template-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.difficulty{font-size:.72rem;padding:4px 10px;border-radius:50px;font-weight:700;letter-spacing:.5px}
+.diff-beg{background:rgba(34,197,94,.12);color:#4ade80}
+.diff-int{background:rgba(245,197,24,.12);color:var(--gold)}
+.diff-adv{background:rgba(239,68,68,.12);color:#f87171}
+.template-name{font-size:1.2rem;font-weight:800;margin-bottom:6px}
+.template-meta{font-size:.78rem;color:var(--gray);margin-bottom:20px}
+.workout-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.workout-list li{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#111;border-radius:8px;font-size:.82rem}
+.workout-list li .ex-name{color:var(--white);font-weight:600}
+.workout-list li .ex-sets{color:var(--gold);font-weight:700}
+.template-btn{width:100%;padding:12px;border-radius:8px;background:transparent;border:1px solid #333;color:var(--white);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s}
+.template-btn:hover{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+
+/* PRICING */
+.pricing-section{background:var(--dark2)}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px}
+.price-card{background:var(--dark3);border:1px solid #222;border-radius:16px;padding:36px;position:relative;transition:border-color .2s,transform .2s}
+.price-card:hover{transform:translateY(-4px)}
+.price-card.featured{border:2px solid var(--gold)}
+.featured-tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--dark);font-size:.72rem;font-weight:900;padding:5px 18px;border-radius:50px;letter-spacing:1px;white-space:nowrap}
+.plan-name{font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
+.plan-price{font-size:3rem;font-weight:900;letter-spacing:-2px;line-height:1}
+.plan-price sup{font-size:1.2rem;vertical-align:top;margin-top:10px;display:inline-block}
+.plan-price sub{font-size:.9rem;color:var(--gray);font-weight:400;letter-spacing:0}
+.plan-desc{color:var(--gray);font-size:.85rem;margin:12px 0 28px;line-height:1.5}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.plan-features li{font-size:.85rem;color:#bbb;display:flex;align-items:center;gap:10px}
+.plan-features li::before{content:"✓";color:var(--gold);font-weight:900;flex-shrink:0}
+.plan-features li.no{color:#555}
+.plan-features li.no::before{content:"✗";color:#444}
+.plan-cta{display:block;width:100%;padding:14px;border-radius:8px;font-weight:800;font-size:.9rem;text-align:center;text-decoration:none;cursor:pointer;border:none;transition:all .2s}
+.plan-cta-gold{background:var(--gold);color:var(--dark)}
+.plan-cta-gold:hover{opacity:.88}
+.plan-cta-outline{background:transparent;color:var(--white);border:1px solid #444}
+.plan-cta-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* SCHEDULE */
+.schedule-section{background:var(--dark)}
+.schedule-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.class-card{background:var(--dark3);border:1px solid #222;border-radius:12px;padding:18px;cursor:pointer;transition:border-color .2s}
+.class-card:hover{border-color:var(--gold)}
+.class-time{font-size:.75rem;color:var(--gold);font-weight:700;letter-spacing:1px;margin-bottom:8px}
+.class-name{font-size:.95rem;font-weight:800;margin-bottom:4px}
+.class-trainer{font-size:.75rem;color:var(--gray)}
+.class-spots{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.spots-bar{height:4px;background:#222;border-radius:2px;flex:1;margin-right:10px}
+.spots-fill{height:100%;border-radius:2px;background:var(--gold)}
+.spots-label{font-size:.7rem;color:var(--gray)}
+
+/* TESTIMONIALS */
+.testimonials-section{background:var(--dark2)}
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.testi-card{background:var(--dark3);border:1px solid #222;border-radius:14px;padding:28px}
+.testi-stars{color:var(--gold);font-size:.9rem;margin-bottom:16px}
+.testi-text{color:#bbb;font-size:.9rem;line-height:1.7;margin-bottom:20px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#e57c00);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;color:var(--dark)}
+.testi-name{font-size:.9rem;font-weight:700}
+.testi-gym{font-size:.75rem;color:var(--gray)}
+
+/* NEWSLETTER */
+.newsletter-section{background:linear-gradient(135deg,#0f0f00 0%,#1a1400 50%,#0a0a0a 100%);border-top:1px solid #2a2a00;border-bottom:1px solid #2a2a00}
+.newsletter-inner{max-width:580px;margin:0 auto;text-align:center}
+.newsletter-inner .section-title{font-size:2.2rem}
+.newsletter-inner p{color:#888;margin-bottom:32px}
+.newsletter-form{display:flex;gap:10px;flex-wrap:wrap}
+.newsletter-form input{flex:1;min-width:200px;padding:14px 18px;border-radius:8px;border:1px solid #333;background:#111;color:var(--white);font-size:.9rem;outline:none}
+.newsletter-form input:focus{border-color:var(--gold)}
+.newsletter-form button{padding:14px 28px;background:var(--gold);color:var(--dark);border:none;border-radius:8px;font-weight:800;font-size:.9rem;cursor:pointer;transition:opacity .2s}
+.newsletter-form button:hover{opacity:.88}
+
+/* FOOTER */
+footer{background:var(--dark2);padding:60px 5% 30px;border-top:1px solid #1a1a1a}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand .logo{font-size:1.4rem;display:block;margin-bottom:14px}
+.footer-brand p{color:#666;font-size:.85rem;line-height:1.6;max-width:250px}
+.footer-col h4{font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:18px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col a{color:#666;font-size:.85rem;text-decoration:none;transition:color .2s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{padding-top:24px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{color:#444;font-size:.78rem}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--dark3);border:1px solid #333;border-radius:18px;padding:40px;max-width:480px;width:100%;position:relative}
+.modal-close{position:absolute;top:18px;right:18px;background:#222;border:none;color:#aaa;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.1rem;transition:color .2s}
+.modal-close:hover{color:var(--white)}
+.modal h2{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.modal p{color:#888;font-size:.88rem;margin-bottom:28px}
+.modal-form{display:flex;flex-direction:column;gap:14px}
+.modal-form input,.modal-form select{padding:13px 16px;border-radius:8px;border:1px solid #333;background:#111;color:var(--white);font-size:.9rem;outline:none;width:100%}
+.modal-form input:focus,.modal-form select:focus{border-color:var(--gold)}
+.modal-form button{padding:14px;background:var(--gold);color:var(--dark);border:none;border-radius:8px;font-weight:900;font-size:1rem;cursor:pointer}
+.promo-banner{background:var(--gold);color:var(--dark);text-align:center;padding:12px;font-size:.83rem;font-weight:700;letter-spacing:.5px;position:relative}
+.promo-banner span{background:var(--dark);color:var(--gold);padding:2px 8px;border-radius:4px;margin-left:8px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hero-stats{gap:24px;flex-wrap:wrap}
+  .section-header{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  🔥 LIMITED TIME: First Month FREE for New Members — Use Code <span>NYCFIT26</span>
+  &nbsp;&nbsp;|&nbsp;&nbsp; 🏆 Inspired by NYC's Best Gyms: Equinox · Solace · Chelsea Piers · Mercedes Club
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">FIT<span>HUB</span><span style="color:#555;font-weight:400;font-size:.9rem"> NYC</span></div>
+  <ul class="nav-links">
+    <li><a href="#gyms">Top Gyms</a></li>
+    <li><a href="#templates">Workouts</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta" onclick="openModal()">Start Free Trial</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🗽 New York's #1 Fitness Platform</div>
+    <h1>TRAIN<br><em>HARDER.</em><br>LIVE BIGGER.</h1>
+    <p>World-class workouts, expert coaching, and premium gym access — all modelled on New York City's most elite fitness clubs. Your transformation starts here.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary" onclick="openModal();return false">Get 1 Month Free →</a>
+      <a href="#templates" class="btn-outline">Browse Workouts</a>
+    </div>
+    <div class="hero-stats">
+      <div><span class="stat-num">12K+</span><span class="stat-label">Active Members</span></div>
+      <div><span class="stat-num">200+</span><span class="stat-label">Workout Plans</span></div>
+      <div><span class="stat-num">50+</span><span class="stat-label">Expert Trainers</span></div>
+      <div><span class="stat-num">4.9★</span><span class="stat-label">Avg Rating</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- NYC GYMS DIRECTORY -->
+<section class="gyms-section" id="gyms">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">NYC Gym Directory</div>
+      <h2 class="section-title">New York's Best Gyms</h2>
+      <p class="section-sub">Discover and compare the top-rated fitness clubs across all five boroughs — curated from 2026's best performers.</p>
+    </div>
+  </div>
+  <div class="gyms-grid">
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <div>
+          <div class="gym-stars">★★★★★</div>
+          <div class="gym-name">Equinox</div>
+          <div class="gym-location">📍 Multiple locations, Manhattan</div>
+        </div>
+        <span class="gym-badge badge-luxury">Luxury</span>
+      </div>
+      <div class="gym-card-body">
+        <p class="gym-desc">NYC's premier luxury fitness club with elite classes, spa amenities, steam rooms, and premium locker rooms. The gold standard in upscale fitness.</p>
+        <div class="gym-price">$280<span>/month</span></div>
+        <div class="gym-tags">
+          <span class="gym-tag">Spa & Recovery</span><span class="gym-tag">Group Classes</span><span class="gym-tag">Personal Training</span>
+        </div>
+      </div>
+    </div>
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <div>
+          <div class="gym-stars">★★★★★</div>
+          <div class="gym-name">Chelsea Piers Fitness</div>
+          <div class="gym-location">📍 Chelsea, Manhattan</div>
+        </div>
+        <span class="gym-badge badge-sport">Sports</span>
+      </div>
+      <div class="gym-card-body">
+        <p class="gym-desc">150,000 sq ft of world-class facilities — pools, rock climbing wall, basketball courts, soccer field, and extensive cardio zones.</p>
+        <div class="gym-price">$155<span>/month</span></div>
+        <div class="gym-tags">
+          <span class="gym-tag">Pool</span><span class="gym-tag">Climbing Wall</span><span class="gym-tag">Sports Courts</span>
+        </div>
+      </div>
+    </div>
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <div>
+          <div class="gym-stars">★★★★★</div>
+          <div class="gym-name">Solace New York</div>
+          <div class="gym-location">📍 38 E 32nd St, NoMad</div>
+        </div>
+        <span class="gym-badge badge-strength">Strength</span>
+      </div>
+      <div class="gym-card-body">
+        <p class="gym-desc">Boutique strength and HIIT studio with Olympic lifting platforms, CrossFit-style equipment, and personalised high-performance coaching.</p>
+        <div class="gym-price">$175<span>/month</span></div>
+        <div class="gym-tags">
+          <span class="gym-tag">Olympic Lifting</span><span class="gym-tag">HIIT</span><span class="gym-tag">Functional Fitness</span>
+        </div>
+      </div>
+    </div>
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <div>
+          <div class="gym-stars">★★★★☆</div>
+          <div class="gym-name">Mercedes Club</div>
+          <div class="gym-location">📍 619 W 54th St, Hell's Kitchen</div>
+        </div>
+        <span class="gym-badge badge-luxury">Premium</span>
+      </div>
+      <div class="gym-card-body">
+        <p class="gym-desc">80,000 sq ft resort-style club with rooftop pool, sundecks, spa services, and a broad calendar of classes from yoga to Zumba.</p>
+        <div class="gym-price">$130<span>/month</span></div>
+        <div class="gym-tags">
+          <span class="gym-tag">Rooftop Pool</span><span class="gym-tag">Spa</span><span class="gym-tag">Classes Included</span>
+        </div>
+      </div>
+    </div>
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <div>
+          <div class="gym-stars">★★★★☆</div>
+          <div class="gym-name">Crunch Fitness</div>
+          <div class="gym-location">📍 Multiple NYC locations</div>
+        </div>
+        <span class="gym-badge badge-boutique">Fun</span>
+      </div>
+      <div class="gym-card-body">
+        <p class="gym-desc">Lively, inclusive gym culture with HIIT, yoga, and unique classes like Karaoke Ride. Full cardio and strength equipment across 5 boroughs.</p>
+        <div class="gym-price">$30<span>/month</span></div>
+        <div class="gym-tags">
+          <span class="gym-tag">Group Classes</span><span class="gym-tag">Affordable</span><span class="gym-tag">5 Boroughs</span>
+        </div>
+      </div>
+    </div>
+    <div class="gym-card">
+      <div class="gym-card-header">
+        <div>
+          <div class="gym-stars">★★★★☆</div>
+          <div class="gym-name">Planet Fitness</div>
+          <div class="gym-location">📍 Citywide NYC</div>
+        </div>
+        <span class="gym-badge badge-budget">Budget</span>
+      </div>
+      <div class="gym-card-body">
+        <p class="gym-desc">The most affordable gym in NYC with 24/7 access, full cardio and strength equipment, and a zero-judgment atmosphere for all fitness levels.</p>
+        <div class="gym-price">$10<span>/month</span></div>
+        <div class="gym-tags">
+          <span class="gym-tag">24/7 Access</span><span class="gym-tag">Beginner Friendly</span><span class="gym-tag">No Contract</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKOUT TEMPLATES -->
+<section class="templates-section" id="templates">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Expert Workout Plans</div>
+      <h2 class="section-title">Workout Templates</h2>
+      <p class="section-sub">Professionally designed programs used by NYC's top trainers — pick your goal, follow the plan, see results.</p>
+    </div>
+  </div>
+  <div class="templates-tabs">
+    <button class="tab-btn active">💪 Strength</button>
+    <button class="tab-btn">🔥 HIIT</button>
+    <button class="tab-btn">🧘 Mobility</button>
+    <button class="tab-btn">🏃 Cardio</button>
+    <button class="tab-btn">🏆 Elite</button>
+  </div>
+  <div class="templates-grid" id="templates-grid">
+    <!-- Injected by JS -->
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Membership Plans</div>
+      <h2 class="section-title">Simple Pricing</h2>
+      <p class="section-sub">Cancel anytime. No hidden fees. First month free for all new members with code NYCFIT26.</p>
+    </div>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price"><sup>$</sup>29<sub>/mo</sub></div>
+      <p class="plan-desc">Perfect for beginners building their first routine.</p>
+      <ul class="plan-features">
+        <li>50+ workout templates</li>
+        <li>Basic progress tracking</li>
+        <li>Community access</li>
+        <li>Mobile app access</li>
+        <li class="no">Personal trainer sessions</li>
+        <li class="no">Nutrition guidance</li>
+        <li class="no">NYC gym partner discounts</li>
+      </ul>
+      <button class="plan-cta plan-cta-outline" onclick="openModal()">Start Free Trial</button>
+    </div>
+    <div class="price-card featured">
+      <div class="featured-tag">⭐ MOST POPULAR</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price"><sup>$</sup>79<sub>/mo</sub></div>
+      <p class="plan-desc">The complete package for serious NYC fitness enthusiasts.</p>
+      <ul class="plan-features">
+        <li>200+ workout templates</li>
+        <li>Advanced progress analytics</li>
+        <li>2× monthly trainer sessions</li>
+        <li>Nutrition & meal planning</li>
+        <li>NYC gym partner discounts</li>
+        <li>Priority class booking</li>
+        <li class="no">Unlimited trainer sessions</li>
+      </ul>
+      <button class="plan-cta plan-cta-gold" onclick="openModal()">Get Pro Free →</button>
+    </div>
+    <div class="price-card">
+      <div class="plan-name">Elite</div>
+      <div class="plan-price"><sup>$</sup>199<sub>/mo</sub></div>
+      <p class="plan-desc">White-glove experience modelled on NYC's luxury gyms.</p>
+      <ul class="plan-features">
+        <li>Unlimited workout plans</li>
+        <li>Unlimited trainer sessions</li>
+        <li>Personalised nutrition coach</li>
+        <li>Recovery & mobility program</li>
+        <li>VIP NYC gym access passes</li>
+        <li>Monthly body composition scan</li>
+        <li>24/7 trainer chat support</li>
+      </ul>
+      <button class="plan-cta plan-cta-outline" onclick="openModal()">Go Elite</button>
+    </div>
+  </div>
+</section>
+
+<!-- CLASS SCHEDULE -->
+<section class="schedule-section" id="schedule">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">This Week</div>
+      <h2 class="section-title">Live Class Schedule</h2>
+      <p class="section-sub">Book your spot in upcoming sessions led by certified NYC trainers. Limited spaces — first come, first served.</p>
+    </div>
+    <a href="#" class="btn-outline" style="white-space:nowrap" onclick="openModal();return false">View Full Calendar</a>
+  </div>
+  <div class="schedule-grid" id="schedule-grid"></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Member Stories</div>
+      <h2 class="section-title">Real NYC Results</h2>
+    </div>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"FitHub completely transformed how I train. The Equinox-level programming at a fraction of the price — I've lost 22 lbs in 4 months and I'm stronger than ever."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">JK</div>
+        <div><div class="testi-name">Jordan K.</div><div class="testi-gym">📍 Upper East Side, Manhattan</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The strength templates are no joke — they're exactly what I'd expect from a Solace NYC program. My deadlift went from 135 to 225 lbs in 3 months."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">MT</div>
+        <div><div class="testi-name">Marcus T.</div><div class="testi-gym">📍 Brooklyn, NY</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"As a busy NYC professional, the flexibility is everything. I get Chelsea Piers quality programming I can do anywhere — hotel gym, home, or at Equinox when I'm feeling fancy."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SR</div>
+        <div><div class="testi-name">Sarah R.</div><div class="testi-gym">📍 Midtown, Manhattan</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The HIIT templates are absolutely brutal in the best way. I've been a member of Crunch for years but FitHub's programming gave my routine a complete upgrade."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">AL</div>
+        <div><div class="testi-name">Alicia L.</div><div class="testi-gym">📍 Astoria, Queens</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The Elite plan is worth every penny. Having an actual nutrition coach alongside the workouts made everything click. Down 30 lbs and feeling unstoppable."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">DM</div>
+        <div><div class="testi-name">Derek M.</div><div class="testi-gym">📍 Hoboken, NJ</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Switched from a $280/month gym membership to FitHub Pro at $79 — same quality programming, better accountability from my online trainer. Game changer."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">PW</div>
+        <div><div class="testi-name">Priya W.</div><div class="testi-gym">📍 Williamsburg, Brooklyn</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <div class="section-tag" style="text-align:center">Free Resources</div>
+    <h2 class="section-title">Get Free Workout<br>Plans Every Week</h2>
+    <p>Join 12,000+ NYC fitness enthusiasts. No spam — just elite programming, gym deals, and expert tips straight from the city's best trainers.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="your@email.com"/>
+      <button>Subscribe →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo">FIT<span style="color:var(--gold)">HUB</span></span>
+      <p>New York's premium fitness platform — world-class training programmes inspired by the city's best gyms, accessible anywhere.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <ul>
+        <li><a href="#">Workout Templates</a></li>
+        <li><a href="#">Class Schedule</a></li>
+        <li><a href="#">Find a Trainer</a></li>
+        <li><a href="#">Nutrition Plans</a></li>
+        <li><a href="#">Progress Tracker</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>NYC Gyms</h4>
+      <ul>
+        <li><a href="#">Equinox</a></li>
+        <li><a href="#">Chelsea Piers</a></li>
+        <li><a href="#">Solace NY</a></li>
+        <li><a href="#">Mercedes Club</a></li>
+        <li><a href="#">Compare All</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 FitHub NYC. All rights reserved.</p>
+    <p>Privacy Policy · Terms of Service · Cookie Policy</p>
+  </div>
+</footer>
+
+<!-- SIGNUP MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Start Your Free Month 🏋️</h2>
+    <p>Enter your details below. No credit card required. Use code <strong style="color:var(--gold)">NYCFIT26</strong> at checkout.</p>
+    <div class="modal-form">
+      <input type="text" placeholder="Full name"/>
+      <input type="email" placeholder="Email address"/>
+      <select style="color:#aaa">
+        <option value="">Select your goal</option>
+        <option>Build strength & muscle</option>
+        <option>Lose weight & burn fat</option>
+        <option>Improve cardio & endurance</option>
+        <option>Flexibility & mobility</option>
+        <option>General fitness</option>
+      </select>
+      <select style="color:#aaa">
+        <option value="">Select a plan</option>
+        <option>Starter — $29/mo</option>
+        <option>Pro — $79/mo ⭐ Most Popular</option>
+        <option>Elite — $199/mo</option>
+      </select>
+      <button onclick="handleSignup()">Claim My Free Month →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* MODAL */
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()})
+function handleSignup(){
+  document.querySelector('.modal-form').innerHTML='<div style="text-align:center;padding:30px 0"><div style="font-size:3rem;margin-bottom:16px">🎉</div><h3 style="font-size:1.4rem;margin-bottom:10px">You\'re in!</h3><p style="color:#888">Check your email for your free month activation link. Your NYC fitness journey starts now.</p></div>'
+}
+
+/* WORKOUT TEMPLATES */
+const templates=[
+  {name:"NYC Power Builder",difficulty:"Intermediate",type:"Strength",duration:"60 min",days:"4x/week",
+   exercises:[{n:"Barbell Back Squat",s:"4×5 @ 80%"},{n:"Romanian Deadlift",s:"3×8"},{n:"Bench Press",s:"4×5 @ 80%"},{n:"Weighted Pull-Ups",s:"3×6"},{n:"Overhead Press",s:"3×8"}]},
+  {name:"Solace-Style HIIT",difficulty:"Advanced",type:"HIIT",duration:"45 min",days:"3x/week",
+   exercises:[{n:"Assault Bike Intervals",s:"8×30s"},{n:"Box Jumps",s:"4×10"},{n:"KB Swings",s:"4×15"},{n:"Battle Ropes",s:"4×30s"},{n:"Burpee Broad Jumps",s:"3×10"}]},
+  {name:"Beginner Foundations",difficulty:"Beginner",type:"Strength",duration:"45 min",days:"3x/week",
+   exercises:[{n:"Goblet Squat",s:"3×12"},{n:"Dumbbell Row",s:"3×12"},{n:"Push-Ups",s:"3×10"},{n:"Romanian Deadlift",s:"3×10"},{n:"Plank Hold",s:"3×45s"}]},
+  {name:"Chelsea Piers Athletic",difficulty:"Advanced",type:"Sport",duration:"75 min",days:"5x/week",
+   exercises:[{n:"Power Clean",s:"5×3"},{n:"Front Squat",s:"4×6"},{n:"Ring Dips",s:"4×8"},{n:"Sled Push",s:"6×20m"},{n:"Farmers Carry",s:"4×30m"}]},
+  {name:"Manhattan Mobility",difficulty:"Beginner",type:"Mobility",duration:"30 min",days:"Daily",
+   exercises:[{n:"Hip 90/90 Stretch",s:"2×90s/side"},{n:"World's Greatest",s:"2×8/side"},{n:"Thoracic Rotation",s:"2×10/side"},{n:"Couch Stretch",s:"2×90s/side"},{n:"Dead Hang",s:"3×30s"}]},
+  {name:"Equinox Elite Fat Loss",difficulty:"Intermediate",type:"HIIT",duration:"55 min",days:"4x/week",
+   exercises:[{n:"Incline Treadmill Walk",s:"10 min"},{n:"DB Circuit 5 moves",s:"4 rounds"},{n:"Rowing Machine",s:"4×500m"},{n:"TRX Superset",s:"3×12 each"},{n:"Ab Finisher",s:"3 rounds"}]},
+];
+const diffClass={Beginner:"diff-beg",Intermediate:"diff-int",Advanced:"diff-adv"};
+function renderTemplates(){
+  document.getElementById('templates-grid').innerHTML=templates.map(t=>`
+    <div class="template-card">
+      <div class="template-label">
+        <span class="difficulty ${diffClass[t.difficulty]}">${t.difficulty}</span>
+        <span style="font-size:.75rem;color:var(--gray)">${t.type}</span>
+      </div>
+      <div class="template-name">${t.name}</div>
+      <div class="template-meta">⏱ ${t.duration} &nbsp;·&nbsp; 📅 ${t.days}</div>
+      <ul class="workout-list">${t.exercises.map(e=>`<li><span class="ex-name">${e.n}</span><span class="ex-sets">${e.s}</span></li>`).join('')}</ul>
+      <button class="template-btn" onclick="openModal()">Download Full Plan →</button>
+    </div>`).join('');
+}
+renderTemplates();
+
+/* Tab filter — just visual for now */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* CLASS SCHEDULE */
+const classes=[
+  {time:"MON 6:00 AM",name:"Power HIIT",trainer:"Coach Amara",spots:80,total:100},
+  {time:"MON 12:00 PM",name:"Strength Foundations",trainer:"Coach Mike",spots:45,total:60},
+  {time:"TUE 7:00 AM",name:"Olympic Lifting",trainer:"Coach Kenji",spots:12,total:20},
+  {time:"TUE 6:30 PM",name:"Vinyasa Yoga",trainer:"Coach Lena",spots:90,total:100},
+  {time:"WED 6:00 AM",name:"Metabolic Burn",trainer:"Coach Zara",spots:30,total:80},
+  {time:"WED 12:30 PM",name:"Pilates Core",trainer:"Coach Nina",spots:55,total:60},
+  {time:"THU 7:00 AM",name:"CrossFit WOD",trainer:"Coach Dom",spots:10,total:25},
+  {time:"THU 7:00 PM",name:"Boxing HIIT",trainer:"Coach Ray",spots:60,total:100},
+  {time:"FRI 6:00 AM",name:"Full Body Power",trainer:"Coach Alex",spots:70,total:90},
+  {time:"FRI 12:00 PM",name:"Recovery Flow",trainer:"Coach Mia",spots:20,total:30},
+  {time:"SAT 9:00 AM",name:"Weekend Warrior",trainer:"Coach Sam",spots:85,total:120},
+  {time:"SUN 10:00 AM",name:"Sunday Stretch",trainer:"Coach Priya",spots:40,total:50},
+];
+document.getElementById('schedule-grid').innerHTML=classes.map(c=>{
+  const pct=Math.round((c.spots/c.total)*100);
+  const color=pct>60?'#4ade80':pct>30?'var(--gold)':'#f87171';
+  return`<div class="class-card" onclick="openModal()">
+    <div class="class-time">${c.time}</div>
+    <div class="class-name">${c.name}</div>
+    <div class="class-trainer">${c.trainer}</div>
+    <div class="class-spots">
+      <div class="spots-bar"><div class="spots-fill" style="width:${pct}%;background:${color}"></div></div>
+      <span class="spots-label">${c.spots} spots</span>
+    </div>
+  </div>`;}).join('');
+
+/* Newsletter */
+document.querySelector('.newsletter-form button').onclick=function(){
+  const v=document.querySelector('.newsletter-form input').value;
+  if(!v)return;
+  document.querySelector('.newsletter-form').innerHTML='<p style="color:#4ade80;font-weight:700;width:100%;text-align:center">✓ You\'re subscribed! First workout plan arriving soon.</p>';
+};
+</script>
+</body>
+</html>
